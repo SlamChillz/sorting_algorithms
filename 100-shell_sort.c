@@ -1,35 +1,49 @@
 #include "sort.h"
 
 /**
-  * shell_sort - shell sorts an array ascendingly, using the Knuth sequence
-  * @array: array to be sorted
-  * @size: size of the array to be sorted
-  *
-  * Return: void
-  */
+ * swap - swaps two integers in an array
+ * @a: first integer to swap
+ * @b: second integer to swap
+ *
+ * Return: void
+ */
+void swap(int *a, int *b)
+{
+	int temp;
+
+	temp = *b;
+	*b = *a;
+	*a = temp;
+}
+
+/**
+ * shell_sort - Sort an array ascendingly using shell sort algorithm
+ * @array: array of integers
+ * @size: size of the array
+ *
+ * Return: void
+ */
 void shell_sort(int *array, size_t size)
 {
-	int i, k, tmp, step;
+	size_t step, i, k;
 
-	step = 1;
+	if (array == NULL || size < 2)
+		return;
 
-	while (step <= ((int) size - 1) / 9)
-		step = 3 * step + 1;
+	for (step = 1; step < (size / 3);)
+		step = step * 3 + 1;
 
-	while (step >= 1)
+	for (; step >= 1; step /= 3)
 	{
-		for (i = step; i < (int) size; i++)
+		for (i = step; i < size; i++)
 		{
-			tmp = array[i];
-			k = i - step;
-			while (k >= 0 && tmp < array[k])
+			k = i;
+			while (k >= step && array[k - step] > array[k])
 			{
-				array[k + step] = array[k];
-				k = k - step;
+				swap(array + k, array + (k - step));
+				k -= step;
 			}
-			array[k + step] = tmp;
 		}
-		step /= 3;
-		print_array(array, (int) size);
+		print_array(array, size);
 	}
 }
