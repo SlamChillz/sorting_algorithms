@@ -13,7 +13,7 @@ void bubble_sort(int *array, size_t size)
 	int socket;
 	bool bubbled;
 
-	if (array == NUL || size < 2)
+	if (array == NULL || size < 2)
 		return;
 
 	for (out = 0; out < size - 1; out++)
